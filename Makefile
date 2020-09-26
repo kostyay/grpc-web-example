@@ -6,6 +6,11 @@ proto:
 	  --grpc-web_out=import_style=commonjs,mode=grpcwebtext:/jsclient \
 	 /api/time/v1/time_service.proto
 
-container:
-	@echo "--> Building Time container"
-	@docker build -t kostyay/grpc-web-example-time -f time/Dockerfile ./time
+run-servers:
+	@echo "--> Starting servers"
+	@docker-compose up
+
+run-frontend:
+	@echo "--> Starting frontend"
+	cd ./frontend
+	npm run serve
