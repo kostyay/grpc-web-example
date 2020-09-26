@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package smpl.time.api.v1;
+
+option go_package = "github.com/kostyay/grpc-web-example/api/time/v1";
+
+message GetCurrentTimeRequest {
+}
+
+message GetCurrentTimeResponse {
+  string current_time = 1;
+}
+
+service TimeService {
+  rpc GetCurrentTime(GetCurrentTimeRequest) returns (GetCurrentTimeResponse);
+}

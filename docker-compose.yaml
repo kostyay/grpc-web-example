@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+
+  envoy:
+    build:
+      context: ./envoy
+      dockerfile: Dockerfile
+    image: kostyay/grpc-web-example-envoy
+    ports:
+      - "8080:8080"
+    links:
+      - time-server
+
+  time-server:
+    build:
+      context: ./time
+      dockerfile: Dockerfile
+    image: kostyay/grpc-web-example-time
+    ports:
+      - "9090:9090"
