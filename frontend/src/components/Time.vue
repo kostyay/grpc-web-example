@@ -14,8 +14,14 @@
 </template>
 
 <script>
+
+//const {GetCurrentTimeRequest} = require('../jsclient/time/v1/time_service_pb');
+//const {TimeServiceClient } = require('../jsclient/time/v1/time_service_grpc_web_pb');
+
+
+import GetCurrentTimeRequest  from '../jsclient/time/v1/time_service_pb';
 import { TimeServiceClient } from '../jsclient/time/v1/time_service_grpc_web_pb';
-import { GetCurrentTimeRequest } from '../jsclient/time/v1/time_service_pb';
+
 
 export default {
   name: 'Time',
