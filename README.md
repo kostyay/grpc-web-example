@@ -2,6 +2,8 @@
 
 This repository demonstrates the usage of grpc-web with vuejs and a Go microservice.
 
+You can read the tutorial [here](https://grpcguide.com/grpc-web-frontend).
+
 ## Directories:
 * api - Contains the gRPC/proto definitions
 * envoy - Contains the envoy configuration for grpc-web to grpc proxying
