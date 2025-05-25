@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package smpl.time.api.v1;
+package smpl.api.time.v1;
 
 option go_package = "github.com/kostyay/grpc-web-example/api/time/v1";
 

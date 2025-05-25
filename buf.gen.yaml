@@ -1,0 +1,14 @@
+version: v2
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: time/goclient
+    opt: paths=source_relative
+  - remote: buf.build/grpc/go:v1.5.1
+    out: time/goclient
+    opt:
+      - paths=source_relative
+  - remote: buf.build/bufbuild/es:v2.5.0
+    include_imports: true
+    out: frontend-ts/src/client
+    opt:
+      - target=ts

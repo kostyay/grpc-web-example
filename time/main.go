@@ -2,37 +2,53 @@ package main
 
 import (
 	"context"
-	"log"
+	"flag"
+	"log/slog"
 	"net"
+	"os"
 	"time"
 
-	pb "github.com/kostyay/grpc-web-example/time/goclient/time/v1"
+	pb "github.com/kostyay/grpc-web-example/time/goclient/api/time/v1"
 	"google.golang.org/grpc"
 )
 
-const (
-	listenAddress = "0.0.0.0:9090"
+var (
+	listenAddress = flag.String("listen", "0.0.0.0:9090", "The address to listen on (host:port)")
 )
 
 type timeService struct {
+	pb.UnimplementedTimeServiceServer
+}
 
+func initLogger() {
+	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelInfo,
+	}))
+	slog.SetDefault(logger)
 }
 
 func (t *timeService) GetCurrentTime(ctx context.Context, req *pb.GetCurrentTimeRequest) (*pb.GetCurrentTimeResponse, error) {
-	log.Println("Got time request")
-	return &pb.GetCurrentTimeResponse{CurrentTime: time.Now().String()}, nil
+	slog.Info("Got time request")
+	return &pb.GetCurrentTimeResponse{CurrentTime: time.Now().Format(time.RFC3339)}, nil
 }
 
 func main() {
-	log.Printf("Time service starting on %s", listenAddress)
-	lis, err := net.Listen("tcp", listenAddress)
+	flag.Parse()
+	initLogger()
+
+	slog.Info("Time service starting", "address", *listenAddress)
+	lis, err := net.Listen("tcp", *listenAddress)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		slog.Error("Failed to listen", "error", err)
+		os.Exit(1)
 	}
 	s := grpc.NewServer()
-	pb.RegisterTimeServiceServer(s, &timeService{})
+
+	ts := &timeService{}
+	pb.RegisterTimeServiceServer(s, ts)
 
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		slog.Error("Failed to serve", "error", err)
+		os.Exit(1)
 	}
 }
