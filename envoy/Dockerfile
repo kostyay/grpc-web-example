@@ -1,4 +1,4 @@
-FROM envoyproxy/envoy:v1.15.0
+FROM envoyproxy/envoy:v1.34.1
 
 COPY envoy.yaml /etc/envoy/envoy.yaml
 
